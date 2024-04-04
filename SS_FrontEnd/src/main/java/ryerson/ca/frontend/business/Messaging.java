@@ -18,13 +18,12 @@ import java.util.concurrent.Flow.Subscriber;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.net.ssl.SSLException;
-import ryerson.ca.borrowbook.endpoint.MyAppServletContextListener;
-import ryerson.ca.borrowbook.persistence.BOOK_Hold_CRUD;
+import ryerson.ca.frontend.endpoint.MyAppServletContextListener;
 
 
 public class Messaging {
     public static void Receiving_Events_Store(String cname) throws SSLException, ServerAddressNotSuppliedException {
-        String ChannelName = cname, ClientID = "hello-world-subscribe1r";
+        String ChannelName = cname, ClientID = "hello-world-subscriber";
                 String kubeMQAddress = System.getenv("kubeMQAddress");
         Subscriber subscriber = new Subscriber(kubeMQAddress);
         SubscribeRequest subscribeRequest = new SubscribeRequest();
@@ -45,12 +44,11 @@ public class Messaging {
                             Converter.FromByteArray(value.getBody()));
                     String[] msgParts = val.split(":");
                     if(msgParts.length==4){
-                        if(msgParts[0].equals("HOLD")){
+                        if(msgParts[0].equals("Songs Generated")){
                         
-                          String isbn=msgParts[1];
-                          String username=msgParts[2];
-                          String date=msgParts[3];
-                            BOOK_Hold_CRUD.addHold(isbn, username, date);
+                          String genSongs=msgParts[1];
+                          String date=msgParts[2];
+                            Generate.generateAndInsertSongs();
                         }
                     }
                 } catch (ClassNotFoundException e) {
@@ -59,9 +57,7 @@ public class Messaging {
                 } catch (IOException e) {
                     System.out.printf("IOException: %s", e.getMessage());
                     e.printStackTrace();
-                } catch (SQLException ex) {
-                    Logger.getLogger(MyAppServletContextListener.class.getName()).log(Level.SEVERE, null, ex);
-                }  
+                }   
             }
 
             @Override
