@@ -1,0 +1,9 @@
+FROM mysql:8.3.0
+
+
+ENV MYSQL_DATABASE=Account_LBS
+ENV    MYSQL_ROOT_PASSWORD=student123
+
+COPY accounts.sql /docker-entrypoint-initdb.d
+
+EXPOSE 3306

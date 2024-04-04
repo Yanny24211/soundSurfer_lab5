@@ -1,0 +1,5 @@
+FROM tomcat:jdk21
+
+COPY ./SS_FrontEnd-1.0-SNAPSHOT.war /usr/local/tomcat/webapps/SS_FrontEnd.war
+
+EXPOSE 8080
