@@ -56,10 +56,7 @@ public class Messaging {
                 } catch (IOException e) {
                     System.out.printf("IOException: %s", e.getMessage());
                     e.printStackTrace();
-                } catch (SQLException ex) {
-                    System.out.printf("SQLException: %s", ex.getMessage());
-                    Logger.getLogger(MyAppServletContextListener.class.getName()).log(Level.SEVERE, null, ex);
-                }  
+                }   
             }
 
             @Override
