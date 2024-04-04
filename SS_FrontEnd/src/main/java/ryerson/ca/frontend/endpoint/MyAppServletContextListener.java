@@ -11,7 +11,7 @@ import javax.net.ssl.SSLException;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
  
-import ryerson.ca.borrowbook.business.Messaging;
+import ryerson.ca.frontend.business.Messaging;
 
 
 public class MyAppServletContextListener 
@@ -28,7 +28,7 @@ public class MyAppServletContextListener
          public void run() {
             
              try {
-                 Messaging.Receiving_Events_Store("hold_book_channel");
+                 Messaging.Receiving_Events_Store("song_gen_channel");
              } catch (SSLException ex) {
                  Logger.getLogger(MyAppServletContextListener.class.getName()).log(Level.SEVERE, null, ex);
              } catch (ServerAddressNotSuppliedException ex) {

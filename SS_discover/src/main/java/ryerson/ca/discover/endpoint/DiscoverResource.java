@@ -22,7 +22,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import ryerson.ca.discover.business.Generate;
-import ryerson.ca.frontend.helper.GenSongsXML;
+import ryerson.ca.discover.helper.GenSongsXML;
 
 
 /**
