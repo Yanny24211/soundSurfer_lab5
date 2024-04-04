@@ -153,8 +153,11 @@ public class Business {
         throw new IllegalArgumentException("Username parameter is null or empty");
         }
         
+        //Get Search Song Service
+        String searchService= System.getenv("searchService");
+        
         Client searchclient = ClientBuilder.newClient();
-        WebTarget searchwebTarget = searchclient.target("http://localhost:8080/SStrackLibrary/webresources/search").queryParam("user", user).path(query);
+        WebTarget searchwebTarget = searchclient.target("http://"+searchService+"/SStrackLibrary/webresources/search").queryParam("user", user).path(query);
         System.out.println("Web Target: " + searchwebTarget);
         InputStream is
                 = searchwebTarget.request(MediaType.APPLICATION_XML).get(InputStream.class);
@@ -169,10 +172,13 @@ public class Business {
     }
     
     public static GenSongsXML getGenServices() throws IOException {
+        //Get Gen Song Service
+        String genService= System.getenv("genService");
+        
         String query = "generate";
         System.out.println("getGenServices Called");
         Client searchclient = ClientBuilder.newClient();
-        WebTarget searchwebTarget = searchclient.target("http://localhost:8080/SS_discover/index.html/webresources/discover");
+        WebTarget searchwebTarget = searchclient.target("http://"+genService+"/SS_discover/index.html/webresources/discover");
         System.out.println("Web Target: " + searchwebTarget);
         InputStream is
                 = searchwebTarget.request(MediaType.APPLICATION_XML).get(InputStream.class);
