@@ -19,7 +19,8 @@ public class AddSong extends HttpServlet {
         Connection con = null; 
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Library_LBS?autoReconnect=true&useSSL=false", "root", "student123");
+            String connection = System.getenv("DB_URL");
+            con = DriverManager.getConnection("jdbc:mysql://" + connection + "/Library_LBS?autoReconnect=true&useSSL=false", "root", "student123");
             System.out.println("Connection Established");
         }
         catch(Exception e){System.out.println("Connection Failed: " + e);} 

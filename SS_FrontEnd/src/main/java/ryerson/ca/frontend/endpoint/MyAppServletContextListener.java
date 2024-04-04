@@ -24,16 +24,13 @@ public class MyAppServletContextListener
 
     @Override
     public void contextInitialized(ServletContextEvent arg0) {
-     Runnable r = new Runnable() {
-         public void run() {
-            
-             try {
-                 Messaging.Receiving_Events_Store("hold_book_channel");
-             } catch (SSLException ex) {
-                 Logger.getLogger(MyAppServletContextListener.class.getName()).log(Level.SEVERE, null, ex);
-             } catch (ServerAddressNotSuppliedException ex) {
-                 Logger.getLogger(MyAppServletContextListener.class.getName()).log(Level.SEVERE, null, ex);
-             }
+     Runnable r = () -> {
+         try {
+             Messaging.Receiving_Events_Store("hold_book_channel");
+         } catch (SSLException ex) {
+             Logger.getLogger(MyAppServletContextListener.class.getName()).log(Level.SEVERE, null, ex);
+         } catch (ServerAddressNotSuppliedException ex) {
+             Logger.getLogger(MyAppServletContextListener.class.getName()).log(Level.SEVERE, null, ex);
          }    
      };
      

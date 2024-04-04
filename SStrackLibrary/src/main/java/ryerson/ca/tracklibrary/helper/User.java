@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class User{
     private String username;
@@ -26,11 +27,12 @@ public class User{
     private static Connection getCon(){
         Connection con = null; 
         try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/soundsurfer?autoReconnect=true&useSSL=false", "root", "student123");
+             Class.forName("com.mysql.cj.jdbc.Driver");
+            String connection = System.getenv("DB_URL");
+            con = DriverManager.getConnection("jdbc:mysql://" + connection + "/Library_LBS?autoReconnect=true&useSSL=false", "root", "student123");
             System.out.println("Connection Established");
         }
-        catch(Exception e){System.out.println("Connection Failed: " + e);} 
+        catch(ClassNotFoundException | SQLException e){System.out.println("Connection Failed: " + e);} 
         return con;
     }
     
@@ -71,7 +73,7 @@ public class User{
             catch(Exception e){System.out.println("getNumSongs: "+ e);}
             
         }
-        catch(Exception e){System.out.println("#Songs Retrieval Failed: " + e);}
+        catch(SQLException e){System.out.println("#Songs Retrieval Failed: " + e);}
         return num_songs; 
 
     }
@@ -101,7 +103,7 @@ public class User{
             catch(Exception e){System.out.println("getNumArtists: "+ e);}
             
         }
-        catch(Exception e){System.out.println("#Artists Retrieval Failed: " + e);}
+        catch(SQLException e){System.out.println("#Artists Retrieval Failed: " + e);}
         return num_artists; 
     }
    
@@ -130,7 +132,7 @@ public class User{
             catch(Exception e){System.out.println("getFavGenre: "+ e);}
             
         }
-        catch(Exception e){System.out.println("Genre Retrieval Failed: " + e);}
+        catch(SQLException e){System.out.println("Genre Retrieval Failed: " + e);}
         return fav_genre; 
     }
    
@@ -159,7 +161,7 @@ public class User{
             catch(Exception e){System.out.println("getFavArtist: "+ e);}
             
         }
-        catch(Exception e){System.out.println("Artist Retrieval Failed: " + e);}
+        catch(SQLException e){System.out.println("Artist Retrieval Failed: " + e);}
         return fav_artist; 
     }
    
@@ -188,7 +190,7 @@ public class User{
             catch(Exception e){System.out.println("getFavSong: "+ e);}
             
         }
-        catch(Exception e){System.out.println("Song Retrieval Failed: " + e);}
+        catch(SQLException e){System.out.println("Song Retrieval Failed: " + e);}
         return fav_song; 
     }
     
