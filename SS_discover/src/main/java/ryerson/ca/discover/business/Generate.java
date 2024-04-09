@@ -3,6 +3,11 @@ package ryerson.ca.discover.business;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -12,42 +17,58 @@ import ryerson.ca.discover.helper.GenSongs;
 import ryerson.ca.discover.helper.GenSongsXML;
 
 public class Generate {
+    
+    private static Connection getCon(){
+        Connection con = null; 
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            String connectionAccount = System.getenv("DB_URL");
+            con = DriverManager.getConnection("jdbc:mysql://" + connectionAccount + "/Discover_LBS?autoReconnect=true&useSSL=false", "root", "student123");
+            System.out.println("Connection Established");
+         
+        }
+        catch(Exception e){System.out.println("Connection Failed: " + e);} 
+        return con;
+    }
+    
     public static ArrayList<GenSongs> generateAndInsertSongs() {
        
         ArrayList<GenSongs> sg = new ArrayList<>(); 
         try {
-            List<String> songIds = readSongIdsFromFile("/Users/yannypatel/Documents/GitHub Repositories/COE692_Project/Sound Surfer Main/SS_discover/tracks.txt");
-            List<String> selectedSongIds = selectRandomSongs(songIds);
+            
+            List<String> selectedSongIds = readSongIdsFromDB();
 
             for (String songId : selectedSongIds) {
                 GenSongs generatedSong = new GenSongs(songId); 
                 sg.add(generatedSong); 
             }
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate date = LocalDate.now();
-        
-            LocalDate exDate = date.plusDays(14);
-            Messaging.sendmessage("Songs Generated:"+sg+":"+exDate.format(formatter));
             
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return sg; 
+        return sg;  
     }
 
     // Method to read Spotify song IDs from a file
-    private static List<String> readSongIdsFromFile(String filePath) throws IOException {
+    private static List<String> readSongIdsFromDB() throws IOException {
+        Connection con = getCon(); 
+            
+        String q = "select * from tracks order by rand() limit 12";
         List<String> songIds = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                songIds.add(line.trim()); 
+        try{
+            PreparedStatement ps = con.prepareStatement(q);
+            ResultSet rs = ps.executeQuery(); 
+            while(rs.next()){
+                String id = rs.getString("trackid");
+                songIds.add(id);
             }
+            con.close(); 
+        } catch(SQLException e){
+            System.out.println("Exception in readSongIdsFromDB: " + e);
         }
         return songIds;
 
     }
-
 
     private static List<String> selectRandomSongs(List<String> songIds) {
         Collections.shuffle(songIds);
