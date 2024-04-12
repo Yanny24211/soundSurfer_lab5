@@ -1,6 +1,7 @@
-ryerson/ca/discover/endpoint/ApplicationConfig.class
-ryerson/ca/discover/endpoint/DiscoverResource.class
-ryerson/ca/frontend/helper/GenSongsXML.class
-ryerson/ca/frontend/helper/GenSongs.class
+ryerson/ca/discover/helper/GenSongsXML.class
+ryerson/ca/discover/helper/GenSongs.class
 ryerson/ca/discover/business/Generate.class
 ryerson/ca/discover/persistence/Discover_CRUD.class
+ryerson/ca/discover/business/Messaging.class
+ryerson/ca/discover/endpoint/ApplicationConfig.class
+ryerson/ca/discover/endpoint/DiscoverResource.class

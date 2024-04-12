@@ -37,19 +37,19 @@ public class Business {
                 case 1: 
                     Class.forName("com.mysql.cj.jdbc.Driver");
                     String connectionAccount = System.getenv("DB_URL");
-                    con = DriverManager.getConnection("jdbc:mysql://" + connectionAccount + "/Account_LBS?autoReconnect=true&useSSL=false", "root", "student123");
+                    con = DriverManager.getConnection("jdbc:mysql://" + connectionAccount + "/Account_LBS?allowPublicKeyRetrieval=true&useSSL=false", "root", "student123");
                     System.out.println("Connection Established");
                     break; 
                 case 2:
                     Class.forName("com.mysql.cj.jdbc.Driver");
                     String connectionLibrary = System.getenv("DB_URL");
-                    con = DriverManager.getConnection("jdbc:mysql://" + connectionLibrary + "Library_LBS?autoReconnect=true&useSSL=false", "root", "student123");
+                    con = DriverManager.getConnection("jdbc:mysql://" + connectionLibrary + "/Library_LBS?allowPublicKeyRetrieval=true&useSSL=false", "root", "student123");
                     System.out.println("Connection Established");
                     break; 
                 case 3:
                     Class.forName("com.mysql.cj.jdbc.Driver");
                     String connectionDiscover = System.getenv("DB_URL");
-                    con = DriverManager.getConnection("jdbc:mysql://" + connectionDiscover + "/Discover_LBS?autoReconnect=true&useSSL=false", "root", "student123");
+                    con = DriverManager.getConnection("jdbc:mysql://" + connectionDiscover + "/Discover_LBS?allowPublicKeyRetrieval=true&useSSL=false", "root", "student123");
                     System.out.println("Connection Established");
                     break; 
             } 

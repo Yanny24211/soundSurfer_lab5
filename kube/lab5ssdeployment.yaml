@@ -1,0 +1,275 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: discoverdb-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 256Mi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discoverdb
+spec:
+  selector:
+    matchLabels:
+      app: discoverdb
+  template:
+    metadata:
+      labels:
+        app: discoverdb
+    spec:
+      containers:
+      - name: discoverdb
+        image: yanny24211/soundsurfer:discoverdb
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: storage
+          mountPath: /data/discoverdb
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          claimName: discoverdb-pvc
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discover
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: discover
+  template:
+    metadata:
+      labels:
+        app: discover
+    spec:
+      containers:
+      - name: discover
+        image: yanny24211/soundsurfer:genWebApp
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_URL
+          value: discoverdb:3306
+        - name: kubeMQAddress
+          value: 10.127.124.96:50000
+        imagePullPolicy: Never
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: accountdb-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 256Mi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: accountdb
+spec:
+  selector:
+    matchLabels:
+      app: accountdb
+  template:
+    metadata:
+      labels:
+        app: accountdb
+    spec:
+      containers:
+      - name: accountdb
+        image: yanny24211/soundsurfer:accountdb
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: storage
+          mountPath: /data/accountdb
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          claimName: accountdb-pvc
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: yanny24211/soundsurfer:frontendWebApp
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_URL
+          value: accountdb:3306
+        - name: kubeMQAddress
+          value: 10.127.124.96:50000
+        - name: searchService
+          value: searchsong:80
+        - name: genService
+          value: discover:80
+        imagePullPolicy: Never
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: librarydb-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 256Mi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: librarydb
+spec:
+  selector:
+    matchLabels:
+      app: librarydb
+  template:
+    metadata:
+      labels:
+        app: librarydb
+    spec:
+      containers:
+      - name: librarydb
+        image: yanny24211/soundsurfer:librarydb
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: storage
+          mountPath: /data/librarydb
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          claimName: librarydb-pvc
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: searchsong
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: searchsong
+  template:
+    metadata:
+      labels:
+        app: searchsong
+    spec:
+      containers:
+      - name: searchsong
+        image: yanny24211/soundsurfer:searchWebApp
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_URL
+          value: librarydb:3306
+        - name: kubeMQAddress
+          value: 10.127.124.96:50000
+        imagePullPolicy: Never
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: discover
+spec:
+  selector:
+    app: discover
+  ports:
+  - port: 80
+    targetPort: 8080
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: searchsong
+spec:
+  selector:
+    app: searchsong
+  ports:
+  - port: 80
+    targetPort: 8080
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  selector:
+    app: frontend
+  ports:
+  - port: 80
+    targetPort: 8080
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: discoverdb
+spec:
+  selector:
+    app: discoverdb
+  ports:
+  - port: 3306
+    targetPort: 3306
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: accountdb
+spec:
+  selector:
+    app: accountdb
+  ports:
+  - port: 3306
+    targetPort: 3306
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: librarydb
+spec:
+  selector:
+    app: librarydb
+  ports:
+  - port: 3306
+    targetPort: 3306

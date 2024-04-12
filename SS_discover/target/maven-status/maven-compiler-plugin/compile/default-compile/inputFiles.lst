@@ -1,6 +1,7 @@
-/Users/yannypatel/Documents/GitHub Repositories/COE692_Project/Sound Surfer Main/SS_discover/src/main/java/ryerson/ca/discover/endpoint/DiscoverResource.java
-/Users/yannypatel/Documents/GitHub Repositories/COE692_Project/Sound Surfer Main/SS_discover/src/main/java/ryerson/ca/discover/persistence/Discover_CRUD.java
-/Users/yannypatel/Documents/GitHub Repositories/COE692_Project/Sound Surfer Main/SS_discover/src/main/java/ryerson/ca/discover/business/Generate.java
-/Users/yannypatel/Documents/GitHub Repositories/COE692_Project/Sound Surfer Main/SS_discover/src/main/java/ryerson/ca/discover/helper/GenSongsXML.java
-/Users/yannypatel/Documents/GitHub Repositories/COE692_Project/Sound Surfer Main/SS_discover/src/main/java/ryerson/ca/discover/endpoint/ApplicationConfig.java
-/Users/yannypatel/Documents/GitHub Repositories/COE692_Project/Sound Surfer Main/SS_discover/src/main/java/ryerson/ca/discover/helper/GenSongs.java
+/Users/yannypatel/Documents/GitHub Repositories/COE692_Project/Sound Surfer Lab 5/soundSurfer_lab5/SS_discover/src/main/java/ryerson/ca/discover/endpoint/ApplicationConfig.java
+/Users/yannypatel/Documents/GitHub Repositories/COE692_Project/Sound Surfer Lab 5/soundSurfer_lab5/SS_discover/src/main/java/ryerson/ca/discover/helper/GenSongs.java
+/Users/yannypatel/Documents/GitHub Repositories/COE692_Project/Sound Surfer Lab 5/soundSurfer_lab5/SS_discover/src/main/java/ryerson/ca/discover/helper/GenSongsXML.java
+/Users/yannypatel/Documents/GitHub Repositories/COE692_Project/Sound Surfer Lab 5/soundSurfer_lab5/SS_discover/src/main/java/ryerson/ca/discover/endpoint/DiscoverResource.java
+/Users/yannypatel/Documents/GitHub Repositories/COE692_Project/Sound Surfer Lab 5/soundSurfer_lab5/SS_discover/src/main/java/ryerson/ca/discover/persistence/Discover_CRUD.java
+/Users/yannypatel/Documents/GitHub Repositories/COE692_Project/Sound Surfer Lab 5/soundSurfer_lab5/SS_discover/src/main/java/ryerson/ca/discover/business/Messaging.java
+/Users/yannypatel/Documents/GitHub Repositories/COE692_Project/Sound Surfer Lab 5/soundSurfer_lab5/SS_discover/src/main/java/ryerson/ca/discover/business/Generate.java
